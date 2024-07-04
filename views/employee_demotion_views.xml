@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_employee_demotion_tree" model="ir.ui.view">
+            <field name="name">employee.demotion.tree</field>
+            <field name="model">employee.demotion</field>
+            <field name="arch" type="xml">
+                <tree string="Employee Demotions">
+                    <field name="employee_id"/>
+                    <field name="demotion_date"/>
+                    <field name="previous_job_title"/>
+                    <field name="new_job_position"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_employee_demotion_form" model="ir.ui.view">
+            <field name="name">employee.demotion.form</field>
+            <field name="model">employee.demotion</field>
+            <field name="arch" type="xml">
+                <form string="Employee Demotion">
+                    <header>
+                        <button name="action_approve" string="To be Approve" type="object" states="draft"
+                                class="oe_highlight"
+                                attrs="{'invisible': [('promotion_button_visible', '=', True)]}"
+                                groups="employee_promotions.group_hr_officer"/>
+                        <button name="promote_employee" string="Approve" type="object" states="approve"
+                                attrs="{'invisible': [('promotion_button_visible', '=', True)]}"
+                                class="oe_highlight"
+                                groups="employee_promotions.group_hr_manager"/>
+                        <button name="action_cancel" string="Cancel" type="object" states="approve"
+                                class="oe_highlight"
+                                groups="employee_promotions.group_hr_manager"
+                                attrs="{'invisible': [('promotion_button_visible', '=', True)]}"/>
+                        <field name="state" widget="statusbar" nolable="1"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="employee_id"/>
+                                <field name="demotion_date"/>
+                                <field name="previous_department_id"/>
+                                <field name="previous_job_title" readonly="1"/>
+                                <field name="company_id" readonly="1"/>
+
+                            </group>
+
+                            <group>
+
+                                <field name="new_job_position" attrs="{'readonly': [('state', 'in', ('approve', 'done'))]}"/>
+                                <field name="reason_for_demotion" widget="text"/>
+                                <field name="promotion_button_visible" invisible="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_employee_demotion" model="ir.actions.act_window">
+            <field name="name">Employee Demotions</field>
+            <field name="res_model">employee.demotion</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_employee_demotion_list"
+                  name="Demotion"
+                  parent="menu_employee_promotion"
+                  action="action_employee_demotion"/>
+    </data>
+</odoo>

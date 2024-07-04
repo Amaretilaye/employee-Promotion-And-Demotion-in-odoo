@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Define the form view for the employee promotion model -->
+        <record id="view_employee_promotion_form" model="ir.ui.view">
+            <field name="name">employee.promotion.form</field>
+            <field name="model">employee.promotion</field>
+            <field name="arch" type="xml">
+                <form string="Employee Promotion">
+                    <header>
+                        <button name="action_approve" string="To be Approve" type="object" states="draft"
+                                class="oe_highlight"
+                                attrs="{'invisible': [('promotion_button_visible', '=', True)]}"
+                                groups="employee_promotions.group_hr_officer"/>
+                        <button name="promote_employee" string="Approve" type="object" states="approve"
+                                attrs="{'invisible': [('promotion_button_visible', '=', True)]}"
+                                class="oe_highlight"
+                                groups="employee_promotions.group_hr_manager"/>
+                        <button name="action_cancel" string="Cancel" type="object" states="approve"
+                                class="oe_highlight"
+                                groups="employee_promotions.group_hr_manager"
+                                attrs="{'invisible': [('promotion_button_visible', '=', True)]}"/>
+                        <field name="state" widget="statusbar" nolable="1"/>
+
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="employee_id"/>
+                                <field name="promotion_date"/>
+                                <field name="current_job_title" readonly="1"/>
+                                <field name="company_id"/>
+                            </group>
+                            <group>
+                                <field name="new_job_position" attrs="{'readonly': [('state', 'in', ('done', 'approve'))]}"/>
+                                <field name="reason_for_promotion" widget="text"/>
+                                <field name="promotion_button_visible" invisible="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Define the tree view for the employee promotion model -->
+        <record id="view_employee_promotion_tree" model="ir.ui.view">
+            <field name="name">employee.promotion.tree</field>
+            <field name="model">employee.promotion</field>
+            <field name="arch" type="xml">
+                <tree string="Employee Promotions">
+                    <field name="employee_id"/>
+                    <field name="promotion_date"/>
+                     <field name="current_job_title" readonly="1"/>
+                    <field name="new_job_position"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Define the action to open the tree view -->
+        <record id="action_employee_promotion" model="ir.actions.act_window">
+            <field name="name">Employee Promotions</field>
+            <field name="res_model">employee.promotion</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Define the menu item to access the employee promotion module -->
+        <menuitem id="menu_employee_promotion"
+                  name="Promotions And Demotions"
+                  parent="hr.menu_hr_root"
+                  sequence="10"/>
+        <menuitem id="menu_employee_promotion_list"
+                  name="Promotion"
+                  parent="menu_employee_promotion"
+                  action="action_employee_promotion"/>
+    </data>
+</odoo>

@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access.employee.promotion,access_employee_promotion,employee_promotions.model_employee_promotion,base.group_user,1,1,1,1
+access.employee.demotion,access_employee_demotion,employee_promotions.model_employee_demotion,base.group_user,1,1,1,1
+access_employee_promotion_hr_manager,employee_promotion_hr_manager,model_employee_promotion,employee_promotions.group_hr_manager,1,1,1,1
+access_employee_promotion_hr_officer,employee_promotion_hr_officer,model_employee_promotion,employee_promotions.group_hr_officer,1,1,1,1
+access_employee_demotion_hr_manager,employee_demotion_hr_manager,model_employee_demotion,employee_promotions.group_hr_manager,1,1,1,1
+access_employee_demotion_hr_officer,employee_demotion_hr_officer,model_employee_demotion,employee_promotions.group_hr_officer,1,1,1,1
